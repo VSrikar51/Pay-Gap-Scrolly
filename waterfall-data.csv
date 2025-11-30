@@ -1,0 +1,5 @@
+group,weekly_earnings,gender,race,lifetime_earnings,type
+White Men BA,1870,Men,White,3889600,baseline
+White Women BA,1437,Women,White,2988960,comparison
+Black Women All,889,Women,Black,1849120,comparison
+Hispanic Women All,800,Women,Hispanic,1664000,comparison

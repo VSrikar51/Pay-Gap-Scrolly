@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Pay Gap: A visual Investigation</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>The Pay Gap</h1>
+                    <p class="subtitle"> An Investigation into America's Wage Inequality through data</p>
+                    <div class="scroll-indicator"> Scroll to explore </div>
+                </div>
+            </section>
+
+            <section class="story-section" id="timeline-section">
+                <div class="viz-container">
+                    <svg id="timeline-chart"></svg>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step" data-step="0">
+                        <div class="step-text">
+                            <h2>Four Decades of Progress</h2>
+                            <p>Since 1980, women's earnings have risen from 60% to 83% of men's earnings. But progress has stalled</p>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="1">
+                        <div class="step-text">
+                            <h2>The Stagnation</h2>
+                            <p>Notice how the line flattens after 2000. In the past 23 years, the gap has only closed by 9 percentage points</p>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="2">
+                        <div class="step-text">
+                            <h2>At this Rate...</h2>
+                            <p>If progess continues at the current pace, it will take until 2070 to achieve pay equity. That's 45 more years.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="story-section" id="particle-section">
+                <div class="viz-container" style="background-color: #1a1a2e;">
+                    <canvas id="particle-canvas"></canvas>
+                    <div class="particle-legend">
+                        <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">Lifetime Earnings</div>
+                        <div style="font-size: 11px; margin-bottom: 10px; color: #666;">Each particle = $1,000 over 40 years</div>
+                        <div class="particle-legend-item">
+                            <div class="particle-legend-color" style="background-color: #10b981;"></div>
+                            <span>White Men BA</span>
+                        </div>
+                        <div class="particle-legend-item">
+                            <div class="particle-legend-color" style="background-color: #f59e0b;"></div>
+                            <span>White Women BA</span>
+                        </div>
+                        <div class="particle-legend-item">
+                            <div class="particle-legend-color" style="background-color: #ef4444;"></div>
+                            <span>Black Women</span>
+                        </div>
+                        <div class="particle-legend-item">
+                            <div class="particle-legend-color" style="background-color: #ec4899;"></div>
+                            <span>Hispanic Women</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step" data-step="3">
+                        <div class="step-text">
+                            <h2>Equal Starting Point</h2>
+                            <p>Imagine 3,889 particles</p>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="4">
+                        <div class="step-text">
+                            <h2>$400,000 lost</h2>
+                            <p>A white woman with a bachelor's degree will earn approximately $400,000 less than her male counterpart over a career. That's a house down payment.</p>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="5">
+                        <div class="step-text">
+                            <h2>The Compounding Effect</h2>
+                            <p>For Black women, the loss is nearly $900,000. For Hispanic Women, over $1 million in lifetime earnings disappear.</p>
+                        </div>
+                    </div>
+                    <div class="step" data-step="6">
+                        <div class="step-text">
+                            <h2>Life Changing Money</h2>
+                            <p>This isn't just numbers at this point, it is retirement savings, children's education, financial security and generational wealth that never materializes.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+        <script src="https://unpkg.com/scrollama"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>
