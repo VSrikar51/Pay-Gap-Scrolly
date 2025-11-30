@@ -1,107 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Pay Gap: A visual Investigation</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <main>
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>The Pay Gap</h1>
-                    <p class="subtitle"> An Investigation into America's Wage Inequality through data</p>
-                    <div class="scroll-indicator"> Scroll to explore </div>
-                </div>
-            </section>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pay Gap: A Visual Investigation</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>The Pay Gap</h1>
+                <p class="subtitle">An Investigation into America's Wage Inequality through Data</p>
+                <div class="scroll-indicator">↓ Scroll to explore ↓</div>
+            </div>
+        </section>
 
-            <section class="story-section" id="timeline-section">
-                <div class="viz-container">
-                    <svg id="timeline-chart"></svg>
-                </div>
-
-                <div class="steps-container">
-                    <div class="step" data-step="0">
-                        <div class="step-text">
-                            <h2>Four Decades of Progress</h2>
-                            <p>Since 1980, women's earnings have risen from 60% to 83% of men's earnings. But progress has stalled</p>
-                        </div>
-                    </div>
-
-                    <div class="step" data-step="1">
-                        <div class="step-text">
-                            <h2>The Stagnation</h2>
-                            <p>Notice how the line flattens after 2000. In the past 23 years, the gap has only closed by 9 percentage points</p>
-                        </div>
-                    </div>
-
-                    <div class="step" data-step="2">
-                        <div class="step-text">
-                            <h2>At this Rate...</h2>
-                            <p>If progess continues at the current pace, it will take until 2070 to achieve pay equity. That's 45 more years.</p>
-                        </div>
+        <section class="story-section" id="timeline-section">
+            <div class="viz-container">
+                <svg id="timeline-chart"></svg>
+            </div>
+            <div class="steps-container">
+                <div class="step" data-step="0">
+                    <div class="step-text">
+                        <h2>Four Decades of Progress?</h2>
+                        <p>Since 1980, women's earnings have risen from 60% to 83% of men's earnings. But progress has stalled.</p>
                     </div>
                 </div>
-            </section>
-            <section class="story-section" id="particle-section">
-                <div class="viz-container" style="background-color: #1a1a2e;">
-                    <canvas id="particle-canvas"></canvas>
-                    <div class="particle-legend">
-                        <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">Lifetime Earnings</div>
-                        <div style="font-size: 11px; margin-bottom: 10px; color: #666;">Each particle = $1,000 over 40 years</div>
-                        <div class="particle-legend-item">
-                            <div class="particle-legend-color" style="background-color: #10b981;"></div>
-                            <span>White Men BA</span>
-                        </div>
-                        <div class="particle-legend-item">
-                            <div class="particle-legend-color" style="background-color: #f59e0b;"></div>
-                            <span>White Women BA</span>
-                        </div>
-                        <div class="particle-legend-item">
-                            <div class="particle-legend-color" style="background-color: #ef4444;"></div>
-                            <span>Black Women</span>
-                        </div>
-                        <div class="particle-legend-item">
-                            <div class="particle-legend-color" style="background-color: #ec4899;"></div>
-                            <span>Hispanic Women</span>
-                        </div>
+                <div class="step" data-step="1">
+                    <div class="step-text">
+                        <h2>The Stagnation</h2>
+                        <p>Notice how the line flattens after 2000. In the past 23 years, the gap has only closed by 9 percentage points.</p>
                     </div>
                 </div>
-
-                <div class="steps-container">
-                    <div class="step" data-step="3">
-                        <div class="step-text">
-                            <h2>Equal Starting Point</h2>
-                            <p>Imagine 3,889 particles</p>
-                        </div>
-                    </div>
-
-                    <div class="step" data-step="4">
-                        <div class="step-text">
-                            <h2>$400,000 lost</h2>
-                            <p>A white woman with a bachelor's degree will earn approximately $400,000 less than her male counterpart over a career. That's a house down payment.</p>
-                        </div>
-                    </div>
-
-                    <div class="step" data-step="5">
-                        <div class="step-text">
-                            <h2>The Compounding Effect</h2>
-                            <p>For Black women, the loss is nearly $900,000. For Hispanic Women, over $1 million in lifetime earnings disappear.</p>
-                        </div>
-                    </div>
-                    <div class="step" data-step="6">
-                        <div class="step-text">
-                            <h2>Life Changing Money</h2>
-                            <p>This isn't just numbers at this point, it is retirement savings, children's education, financial security and generational wealth that never materializes.</p>
-                        </div>
+                <div class="step" data-step="2">
+                    <div class="step-text">
+                        <h2>At This Rate...</h2>
+                        <p>If progress continues at the current pace, it will take until 2070 to achieve pay equity. That's 47 more years.</p>
                     </div>
                 </div>
-            </section>
-        </main>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
-        <script src="https://unpkg.com/scrollama"></script>
-        <script src="js/script.js"></script>
-    </body>
+            </div>
+        </section>
+
+        <section class="story-section" id="particle-section">
+            <div class="viz-container" style="background-color: #1a1a2e;">
+                <canvas id="particle-canvas"></canvas>
+                <div class="particle-legend">
+                    <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">Earnings Erosion</div>
+                    <div style="font-size: 11px; margin-bottom: 10px; color: #666;">Particles fall = lost earnings</div>
+                    <div style="font-size: 11px; margin-bottom: 12px; color: #666;">Each particle = $10,000</div>
+                    <div class="particle-legend-item">
+                        <div class="particle-legend-color" style="background-color: #10b981;"></div>
+                        <span>Baseline (White Men BA)</span>
+                    </div>
+                    <div class="particle-legend-item">
+                        <div class="particle-legend-color" style="background-color: #f59e0b;"></div>
+                        <span>White Women BA Loss</span>
+                    </div>
+                    <div class="particle-legend-item">
+                        <div class="particle-legend-color" style="background-color: #ef4444;"></div>
+                        <span>Black Women Loss</span>
+                    </div>
+                    <div class="particle-legend-item">
+                        <div class="particle-legend-color" style="background-color: #ec4899;"></div>
+                        <span>Hispanic Women Loss</span>
+                    </div>
+                </div>
+            </div>
+            <div class="steps-container">
+                <div class="step" data-step="3">
+                    <div class="step-text">
+                        <h2>The Baseline</h2>
+                        <p>Everyone starts at the same point: $3.89 million over a 40-year career with a bachelor's degree. This is what White men with a BA typically earn.</p>
+                    </div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-text">
+                        <h2>First Loss: $900,000</h2>
+                        <p>Watch as particles begin to fall. White women with the same degree lose $900,000 over their careers. That's a home, retirement security, generational wealth.</p>
+                    </div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-text">
+                        <h2>Compounding Inequality</h2>
+                        <p>Black women lose $2 million. The gap isn't just about gender—it's about race compounding the disadvantage. More particles cascade downward.</p>
+                    </div>
+                </div>
+                <div class="step" data-step="6">
+                    <div class="step-text">
+                        <h2>The Widest Gap</h2>
+                        <p>Hispanic women lose $2.2 million over their careers. Four groups, same education, vastly different economic realities. This is the visible cost of systemic inequality.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="js/script.js"></script>
+</body>
 </html>

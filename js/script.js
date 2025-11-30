@@ -414,30 +414,38 @@ function updateChart(step){
 }
 
 function updateParticleStep(step) {
+    console.log("=== updateParticleStep called with step:", step);
+    
     if (step === 0) {
         particleGroups[0].active = true;
         particleGroups[1].active = false;
         particleGroups[2].active = false;
         particleGroups[3].active = false;
+        console.log("Step 0: Only White Men active");
     }
     else if (step === 1) {
         particleGroups[0].active = true;
         particleGroups[1].active = true;
         particleGroups[2].active = false;
         particleGroups[3].active = false;
+        console.log("Step 1: White Men + White Women active");
     }
     else if (step === 2) {
         particleGroups[0].active = true;
         particleGroups[1].active = true;
         particleGroups[2].active = true;
         particleGroups[3].active = false;
+        console.log("Step 2: White Men + White Women + Black Women active");
     }
     else if (step === 3) {
         particleGroups[0].active = true;
         particleGroups[1].active = true;
         particleGroups[2].active = true;
         particleGroups[3].active = true;
+        console.log("Step 3: ALL groups active (including Hispanic Women)");
     }
+    
+    console.log("Active states:", particleGroups.map(g => `${g.name}: ${g.active}`));
 }
 
 const scroller = scrollama();

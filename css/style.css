@@ -231,6 +231,10 @@ body{
     display: block;
 }
 
+#particle-section{
+    height: 400vh;
+}
+
 #particle-section .viz-container {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
