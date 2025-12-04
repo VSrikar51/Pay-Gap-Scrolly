@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>US Hex Tile Map — Clean Version</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  html,body{ height:100%; margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial; background:#ffffff; }
+  #wrap{ width:100%; height:100vh; display:flex; align-items:center; justify-content:center; padding:28px; box-sizing:border-box; }
+  svg{ width:100%; max-width:1200px; height:calc(100vh - 56px); display:block; background:transparent; }
+  .hex polygon{
+    stroke:#ffffff;
+    stroke-width:2px;
+    transition:transform 110ms;
+    shape-rendering:crispEdges;
+  }
+  .hex-label{ 
+    font-size:12px; 
+    font-weight:700; 
+    text-anchor:middle; 
+    fill:#042734; 
+    pointer-events:none;
+  }
+  .tooltip{
+    position:fixed; display:none; pointer-events:none;
+    background: rgba(3,18,30,0.96); color:white; padding:8px 12px; border-radius:8px;
+    font-size:13px; box-shadow:0 14px 36px rgba(2,8,23,0.22); z-index:9999;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <svg id="svg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet"></svg>
+  <div id="tooltip" class="tooltip"></div>
+</div>
+
+<script>
+// -------------------------------
+// Replace with your values
+// -------------------------------
+const sampleData = [
+  {abbr:"AL", gap:23.1}, {abbr:"AK", gap:16.7}, {abbr:"AZ", gap:18.6}, {abbr:"AR", gap:20.9},
+  {abbr:"CA", gap:18.2}, {abbr:"CO", gap:15.9}, {abbr:"CT", gap:15.1}, {abbr:"DE", gap:17.8},
+  {abbr:"DC", gap:12.4}, {abbr:"FL", gap:18.9}, {abbr:"GA", gap:20.3}, {abbr:"HI", gap:14.4},
+  {abbr:"ID", gap:19.5}, {abbr:"IL", gap:17.6}, {abbr:"IN", gap:20.1}, {abbr:"IA", gap:18.3},
+  {abbr:"KS", gap:19.8}, {abbr:"KY", gap:21.0}, {abbr:"LA", gap:22.7}, {abbr:"ME", gap:13.9},
+  {abbr:"MD", gap:14.7}, {abbr:"MA", gap:13.5}, {abbr:"MI", gap:17.9}, {abbr:"MN", gap:14.9},
+  {abbr:"MS", gap:24.5}, {abbr:"MO", gap:19.6}, {abbr:"MT", gap:18.0}, {abbr:"NE", gap:18.7},
+  {abbr:"NV", gap:19.0}, {abbr:"NH", gap:13.8}, {abbr:"NJ", gap:15.4}, {abbr:"NM", gap:19.7},
+  {abbr:"NY", gap:16.3}, {abbr:"NC", gap:19.9}, {abbr:"ND", gap:17.1}, {abbr:"OH", gap:18.4},
+  {abbr:"OK", gap:21.4}, {abbr:"OR", gap:16.9}, {abbr:"PA", gap:16.8}, {abbr:"RI", gap:15.2},
+  {abbr:"SC", gap:20.7}, {abbr:"SD", gap:17.5}, {abbr:"TN", gap:21.9}, {abbr:"TX", gap:19.4},
+  {abbr:"UT", gap:22.2}, {abbr:"VT", gap:12.9}, {abbr:"VA", gap:16.1}, {abbr:"WA", gap:15.0},
+  {abbr:"WV", gap:23.6}, {abbr:"WI", gap:16.5}, {abbr:"WY", gap:20.5}
+];
+
+const data = new Map(sampleData.map(d => [d.abbr, d.gap]));
+
+// -------------------------------
+// Hex tile layout (col,row)
+// -------------------------------
+const layout = [
+  ["AK",-3,0],
+  ["WA",0,0],["MT",1,0],["ND",2,0],["MN",3,0],["WI",4,0],["MI",5,0],["NY",6,0],["VT",7,0],["NH",8,0],["ME",9,0],
+  ["OR",0,1],["ID",1,1],["WY",2,1],["SD",3,1],["IA",4,1],["IL",5,1],["IN",6,1],["OH",7,1],["PA",8,1],["NJ",9,1],["MA",10,1],["RI",11,1],["CT",10,0],
+  ["CA",0,2],["NV",1,2],["UT",2,2],["CO",3,2],["NE",4,2],["MO",5,2],["KY",6,2],["WV",7,2],["MD",8,2],["DE",9,2],["DC",11,2],
+  ["AZ",0,3],["NM",1,3],["OK",2,3],["AR",3,3],["LA",4,3],["MS",5,3],["AL",6,3],["GA",7,3],["VA",8,3],["NC",9,3],
+  ["HI",-2,4],["TX",2,4],["SC",7,4],["FL",8,4]
+];
+
+// -------------------------------
+// Geometry
+// -------------------------------
+const svg = d3.select("#svg");
+const viewW = 1000, viewH = 620;
+const hexR = 30;
+const xStep = hexR * 1.85;
+const yStep = Math.sqrt(3) * hexR * 0.72;
+
+// center layout
+const xs = layout.map(d => d[1]);
+const ys = layout.map(d => d[2]);
+const minX = Math.min(...xs), maxX = Math.max(...xs);
+const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+const gridW = (maxX - minX + 1) * xStep;
+const gridH = (maxY - minY + 1) * yStep + hexR;
+const offsetX = (viewW - gridW) / 2 + hexR - minX * xStep;
+const offsetY = (viewH - gridH) / 2 + hexR - minY * yStep;
+
+// build nodes
+const nodes = layout.map(([abbr,col,row]) => {
+  let x = offsetX + col*xStep + (row%2 ? xStep/2 : 0);
+  let y = offsetY + row*yStep;
+
+  if(abbr === "AK"){ x = offsetX - hexR*2; y = offsetY - hexR*1.1; }
+  if(abbr === "HI"){ x = offsetX - hexR*1.8; y = offsetY + gridH - hexR*0.5; }
+  if(abbr === "DC"){ x += hexR*0.6; }
+
+  return {
+    abbr,
+    gap: data.get(abbr),
+    x, y
+  };
+});
+
+// Teal color scale like screenshot
+const gaps = sampleData.map(d=>d.gap);
+const minGap = d3.min(gaps), maxGap = d3.max(gaps);
+const color = d3.scaleLinear()
+  .domain([minGap, (minGap+maxGap)/2, maxGap])
+  .range(["#d7f3ef","#6ad1bf","#00807a"]);
+
+// -------------------------------
+// Draw hexes
+// -------------------------------
+const g = svg.append("g");
+const tooltip = d3.select("#tooltip");
+
+const hexPoints = (() => {
+  const pts=[];
+  for(let i=0;i<6;i++){
+    const ang = Math.PI/180 * (60*i - 30);
+    pts.push([hexR*Math.cos(ang), hexR*Math.sin(ang)]);
+  }
+  return pts.map(p=>p.join(",")).join(" ");
+})();
+
+const tiles = g.selectAll("g.tile")
+  .data(nodes)
+  .enter()
+  .append("g")
+  .attr("transform", d => `translate(${d.x},${d.y})`);
+
+tiles.append("polygon")
+  .attr("points", hexPoints)
+  .attr("fill", d => isFinite(d.gap) ? color(d.gap) : "#ccc")
+  .on("mouseenter", (e,d)=>{
+    d3.select(e.currentTarget).attr("stroke","#083a3a").attr("stroke-width",2.6).attr("transform","scale(1.04)");
+    showTooltip(e,d);
+  })
+  .on("mousemove",moveTooltip)
+  .on("mouseleave",(e,d)=>{
+    d3.select(e.currentTarget).attr("stroke","#ffffff").attr("stroke-width",2).attr("transform","scale(1)");
+    hideTooltip();
+  });
+
+// ONLY state abbreviation now (no %)
+tiles.append("text")
+  .attr("class","hex-label")
+  .attr("dy",4)
+  .text(d=>d.abbr);
+
+// -------------------------------
+// Tooltip
+// -------------------------------
+function showTooltip(event,d){
+  tooltip.style("display","block");
+  tooltip.html(`
+    <div style="font-weight:700">${d.abbr}</div>
+    <div style="margin-top:6px">Gap: ${isFinite(d.gap)?d.gap.toFixed(1)+"%":"—"}</div>
+  `);
+  moveTooltip(event);
+}
+function moveTooltip(event){
+  const box = tooltip.node().getBoundingClientRect();
+  let left = event.clientX + 12;
+  let top = event.clientY + 12;
+  if(left+box.width>window.innerWidth) left = event.clientX - box.width - 12;
+  if(top+box.height>window.innerHeight) top = event.clientY - box.height - 12;
+  tooltip.style("left",left+"px").style("top",top+"px");
+}
+function hideTooltip(){ tooltip.style("display","none"); }
+
+</script>
+</body>
+</html>
